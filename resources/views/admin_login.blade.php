@@ -31,7 +31,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="w3layouts-main">
 	<h2>Đăng nhập</h2>
 		<?php
-			$message = session()->get('message');
+			$message = session()->get('message_login');
 
 			if($message) {
 				echo 
@@ -39,8 +39,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						,$message,
 					'</div>';
 				// echo $message;
-				session()->put('message', null);
+				session()->put('message_login', null);
 			}
+
+			session()->forget('admin_name');
+			session()->forget('admin_id');
 		?>
 		<form action="{{(URL::to('/admin-dashboard'))}}" method="post">
 			{{ csrf_field() }}

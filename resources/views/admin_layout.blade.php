@@ -94,15 +94,39 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <span>Tổng quan</span>
                             </a>
                         </li>
-
+                        <!-- Category -->
                         <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-book"></i>
                                 <span>Danh mục sản phẩm</span>
                             </a>
                             <ul class="sub">
-                                <li><a href="typography.html">Thêm danh mục</a></li>
-                                <li><a href="glyphicon.html">Liệt kê danh mục</a></li>
+                                <li><a href="{{URL::to('/all-category-product')}}">Liệt kê danh mục sản phẩm</a></li>
+                                <li><a href="{{URL::to('/add-category-product')}}">Thêm danh mục sản phẩm</a></li>
+                                <!-- <li><a href="grids.html">Grids</a></li> -->
+                            </ul>
+                        </li>
+                        <!-- Brands -->
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>Thương hiệu sản phẩm</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{URL::to('/all-brand-product')}}">Liệt kê thương hiệu sản phẩm</a></li>
+                                <li><a href="{{URL::to('/add-brand-product')}}">Thêm thương hiệu sản phẩm</a></li>
+                                <!-- <li><a href="grids.html">Grids</a></li> -->
+                            </ul>
+                        </li>
+                        <!-- Product -->
+                        <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span>Sản phẩm</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{URL::to('/all-product')}}">Liệt kê sản phẩm</a></li>
+                                <li><a href="{{URL::to('/add-product')}}">Thêm sản phẩm</a></li>     
                                 <!-- <li><a href="grids.html">Grids</a></li> -->
                             </ul>
                         </li>
@@ -114,14 +138,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <!--sidebar end-->
         <!--main content start-->
         <section id="main-content">
-            @yield('admin_content')
-            <!-- footer -->
-            <div class="footer">
-                <div class="wthree-copyright">
-                    <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
+            <sectionc class="wrapper">
+                @yield('admin_content')
+                <!-- footer -->
+                <div class="footer">
+                    <div class="wthree-copyright">
+                        <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
+                    </div>
                 </div>
-            </div>
-            <!-- / footer -->
+                <!-- / footer -->
+            </sectionc>
         </section>
         <!--main content end-->
     </section>
