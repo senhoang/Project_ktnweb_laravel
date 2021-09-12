@@ -63,5 +63,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{asset('public/backend/js/jquery.slimscroll.js')}}"></script>
 <script src="{{asset('public/backend/js/jquery.nicescroll.js')}}"></script>
 <script src="{{asset('public/backend/js/jquery.scrollTo.js')}}"></script>
+<script>
+	window.onbeforeunload = function() {
+		window.location.replace(window.location)
+	};
+</script>
 </body>
 </html>

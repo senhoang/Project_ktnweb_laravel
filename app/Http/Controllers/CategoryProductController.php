@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class CategoryProductController extends Controller
 {
+    // Start function page admin 
     public function AuthLogin() {
         $admin_id = session()->get('admin_id');
         if(is_null($admin_id)) {
@@ -81,5 +82,19 @@ class CategoryProductController extends Controller
         $this->AuthLogin();
         DB::table('tbl_category_product')->where('category_id', $category_product_id)->delete();
         return Redirect::to('all-category-product');
+    }
+    // End function page admin
+
+    public function show_category_home($category_product_id) {
+        $categorys = DB::table('tbl_category_product')->where('category_status','!=', '0')->orderBy('category_id', 'asc')->get();
+        $brands = DB::table('tbl_brand_product')->where('brand_status','!=', '0')->orderBy('brand_id', 'asc')->get();
+        $products = DB::table('tbl_product')->where('product_status','!=', '0')->where('category_id',$category_product_id)->get();
+        $category_name = DB::table('tbl_category_product')
+            ->where('category_status','!=', '0')
+            ->where('category_id',$category_product_id)
+            ->first()
+            ->category_name;
+
+        return view('pages.category.show_category')->with('products',$products)->with('categorys',$categorys)->with('brands',$brands)->with('category_name',$category_name);
     }
 }

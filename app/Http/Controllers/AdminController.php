@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
-// use Symfony\Component\HttpFoundation\Session\Session;
 
 session_start();
 
@@ -35,7 +34,6 @@ class AdminController extends Controller
         ->first();
         
         if($result) {
-            // Session::put('admin_name',$result->admin_name);
             session()->put('admin_name', $result->admin_name);
             session()->put('admin_id', $result->admin_id);
             return Redirect::to('/dashboard');
@@ -43,7 +41,6 @@ class AdminController extends Controller
             $request->session()->put('message_login', 'Mật khẩu hoặc tài khoản không chính xác');
             return Redirect::to('/admin');
         };
-        // return view('admin.dashboard');
     }
     
     public function logout () {

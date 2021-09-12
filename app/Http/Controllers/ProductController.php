@@ -43,6 +43,7 @@ class ProductController extends Controller
     // CREATE
     public function add_product() {
         $this->AuthLogin();
+        
         $categorys = DB::table('tbl_category_product')->orderBy('category_name', 'asc')->get();
         $brands = DB::table('tbl_brand_product')->orderBy('brand_name', 'asc')->get();
         return view('admin.add_product')->with('categorys',$categorys)->with('brands',$brands);
@@ -50,13 +51,17 @@ class ProductController extends Controller
     
     public function save_product(Request $request) {
         $this->AuthLogin();
+        
+        // Chinh sua du lieu
+        $string_convert = [',','.',' '];
+        
         $data = array();
         $data['product_name'] = $request->product_name;
         $data['category_id'] = $request->category_id;
         $data['brand_id'] = $request->brand_id;
         $data['product_desc'] = $request->product_desc;
         $data['product_content'] = $request->product_content;
-        $data['product_price'] = $request->product_price;
+        $data['product_price'] = floatval(str_replace($string_convert, '', $request->product_price));
         $data['product_status'] = $request->product_status;
         
         $this->validate($request, [
@@ -93,13 +98,16 @@ class ProductController extends Controller
 
     public function update_product(Request $request,$product_id,$product_image) {
         $this->AuthLogin();
+        // Chỉnh sửa dữ liệu
+        $string_convert = [',','.',' '];
+
         $data = array();
         $data['product_name'] = $request->product_name;
         $data['category_id'] = $request->category_id;
         $data['brand_id'] = $request->brand_id;
         $data['product_desc'] = $request->product_desc;
         $data['product_content'] = $request->product_content;
-        $data['product_price'] = $request->product_price;
+        $data['product_price'] = floatval(str_replace($string_convert, '', $request->product_price));
         $data['product_status'] = $request->product_status;
         
         if ($request->hasFile('product_image')) {
@@ -112,8 +120,8 @@ class ProductController extends Controller
             
             $data['product_image'] = $name_image;
             $image->move('public/uploads/products', $name_image);
-            if(File::exists('public/uploads/products'.$product_image)) {
-                File::delete('public/uploads/products'.$product_image);
+            if(File::exists('public/uploads/products/'.$product_image)) {
+                File::delete('public/uploads/products/'.$product_image);
             }
         }
 
@@ -123,9 +131,31 @@ class ProductController extends Controller
     }
     
     // DELETE
-    public function delete_product($product_id) {
+    public function delete_product($product_id,$product_image) {
         $this->AuthLogin();
         DB::table('tbl_product')->where('product_id', $product_id)->delete();
+        if(File::exists('public/uploads/products/'.$product_image)) {
+            File::delete('public/uploads/products/'.$product_image);
+        }
         return Redirect::to('all-product');
+    }
+    // END BACKEND
+    
+    // FRONTEND
+    // Show chi tiet san pham
+    public function show_detail_product($product_id) {
+        $categorys = DB::table('tbl_category_product')->where('category_status', '!=', '0')->orderBy('category_id', 'asc')->get();
+        $brands = DB::table('tbl_brand_product')->where('brand_status', '!=', '0')->orderBy('brand_id', 'asc')->get();
+
+        $product = DB::table('tbl_product')
+            ->leftJoin('tbl_category_product', 'tbl_product.category_id', '=', 'tbl_category_product.category_id')
+            ->leftJoin('tbl_brand_product', 'tbl_product.brand_id', '=', 'tbl_brand_product.brand_id')
+            ->where('tbl_product.product_id', $product_id)
+            ->first();
+
+        return view('pages.product.show_detail_product')
+            ->with('product', $product)
+            ->with('categorys', $categorys)
+            ->with('brands', $brands);
     }
 }

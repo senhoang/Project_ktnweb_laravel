@@ -29,7 +29,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Hình ảnh sản phẩm</label>
-                                <input type="file" name="product_image" class="form-control" id="">
+                                <input type="file" name="product_image" class="form-control" id="product_image">
+                                <img src="" alt="product" width="120px" height="120px" id="show_product_image" show_product_image>
                             </div>
                             <div class="form-group">
                                 <label for="category_id">Danh mục sản phẩm</label>

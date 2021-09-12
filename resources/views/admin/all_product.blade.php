@@ -26,6 +26,20 @@
                 </div>
             </div>
         </div>
+        <?php
+            $message = session()->get('message');
+
+            if($message) {
+                echo 
+                    '<div class="alert alert-success d-flex align-items-center" role="alert">
+                        <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                        '
+                            ,$message,
+                        '
+                    </div>';
+                session()->put('message', null);
+            }
+        ?>
         <div class="table-responsive">
             <table class="table table-striped b-t b-light">
                 <thead>
@@ -48,31 +62,34 @@
                     <tr>
                         <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
                         <td>{{$product->product_name}}</td>
-                        <td>{{$product->product_price}}</td>
-                        <td><img src="public/uploads/products/{{$product->product_image}}" alt="product" width="80px" height="80px"></td>
+                        <td>@money($product->product_price)</td>
+                        <td><img src="public/uploads/products/{{$product->product_image}}" alt="product" width="80px"
+                                height="80px"></td>
                         <td><span class="text-ellipsis">{{$product->product_desc}}</span></td>
                         <td><span class="text-ellipsis">
                                 <?php
                                 if ($product->product_status == 0) {
                                 ?>
-                                    <a href="{{URL::to('/active-product/'.$product->product_id)}}" class="">
-                                        <i class="fa fa-eye-slash"></i>
-                                    </a>
+                                <a href="{{URL::to('/active-product/'.$product->product_id)}}" class="">
+                                    <i class="fa fa-eye-slash"></i>
+                                </a>
                                 <?php
                                 } else {
                                 ?>
-                                    <a href="{{URL::to('/unactive-product/'.$product->product_id)}}"> <i class="fa fa-eye alert-success"></i></a>
+                                <a href="{{URL::to('/unactive-product/'.$product->product_id)"> <i class="fa fa-eye alert-success"></i></a>
                                 <?php
                                 }
                                 ?>
                             </span></td>
                         <td>
                             <a href="{{URL::to('/edit-product/'.$product->product_id)}}" class="">
-                                <i class="fa fa-pencil text-success"></i>
-                            </a>
+                                    <i class="fa fa-pencil text-success"></i>
+                                </a>
                         </td>
                         <td>
-                            <a onclick="return confirm('Dữ liệu sẽ không thể khôi phục?')" href="{{URL::to('/delete-product/'.$product->product_id)}}" class="">
+                            <a onclick="return confirm('Dữ liệu sẽ không thể khôi phục?')"
+                                href="{{URL::to('/delete-product/'.$product->product_id.'/'.$product->product_image)}}"
+                                class="">
                                 <i class="fa fa-times text-danger"></i>
                             </a>
                         </td>
@@ -102,13 +119,14 @@
     </div>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", function(event) {
+    document.addEventListener("DOMContentLoaded", function (event) {
         var scrollpos = localStorage.getItem('scrollpos');
         if (scrollpos) window.scrollTo(0, scrollpos);
     });
 
-    window.onbeforeunload = function(e) {
+    window.onbeforeunload = function (e) {
         localStorage.setItem('scrollpos', window.scrollY);
     };
+
 </script>
 @endsection
